@@ -15,8 +15,8 @@
 #include <cstdarg>
 #include <cstddef>
 #include <cstdint>
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <cuchar>
@@ -48,8 +48,8 @@
 #include <future>
 #include <initializer_list>
 #include <iomanip>
-#include <iosfwd>
 #include <ios>
+#include <iosfwd>
 #include <iostream>
 #include <istream>
 #include <iterator>
@@ -68,8 +68,8 @@
 #include <queue>
 #include <random>
 #include <ranges>
-#include <regex>
 #include <ratio>
+#include <regex>
 #include <scoped_allocator>
 #include <semaphore>
 #include <set>
@@ -86,9 +86,9 @@
 #include <system_error>
 #include <thread>
 #include <tuple>
+#include <type_traits>
 #include <typeindex>
 #include <typeinfo>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -99,14 +99,42 @@
 
 // clib
 #include <RE/Skyrim.h>
-#include <SKSE/SKSE.h>
 #include <REL/Relocation.h>
+#include <SKSE/SKSE.h>
 
 // winnt
 #include <ShlObj_core.h>
 
 using namespace std::literals;
 using namespace REL::literals;
+
+namespace stl
+{
+	using namespace SKSE::stl;
+
+	template <class T>
+	void write_thunk_call(std::uintptr_t a_src)
+	{
+		SKSE::AllocTrampoline(14);
+
+		auto& trampoline = SKSE::GetTrampoline();
+		T::func = trampoline.write_call<5>(a_src, T::thunk);
+	}
+
+	template <class F, std::size_t idx, class T>
+	void write_vfunc()
+	{
+		REL::Relocation<std::uintptr_t> vtbl{ F::VTABLE[0] };
+		T::func = vtbl.write_vfunc(idx, T::thunk);
+	}
+
+	template <std::size_t idx, class T>
+	void write_vfunc(REL::VariantID id)
+	{
+		REL::Relocation<std::uintptr_t> vtbl{ id };
+		T::func = vtbl.write_vfunc(idx, T::thunk);
+	}
+}
 
 #define DLLEXPORT extern "C" [[maybe_unused]] __declspec(dllexport)
 

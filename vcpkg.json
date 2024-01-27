@@ -1,14 +1,12 @@
 {
-    "name":  "staggerdirectionfix_re",
-    "version-string":  "1.0.0",
-    "description":  "",
-    "license":  "MIT",
-    "dependencies":  [
-                         "spdlog"
-                     ],
-    "features":  {
-                     "mo2-install":  {
-                                         "description":  "StaggerDirectionFix_RE"
-                                     }
-                 }
+  "name": "staggerdirectionfix_re",
+  "version-string": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "dependencies": ["spdlog"],
+  "features": {
+    "mo2-install": {
+      "description": "Stagger Direction Fix RE"
+    }
+  }
 }
