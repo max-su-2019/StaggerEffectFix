@@ -1,12 +1,12 @@
 {
-  "name": "staggerdirectionfix_re",
+  "name": "staggereffectfix",
   "version-string": "1.0.0",
   "description": "",
   "license": "MIT",
   "dependencies": ["spdlog"],
   "features": {
     "mo2-install": {
-      "description": "Stagger Direction Fix RE"
+      "description": "StaggerEffectFix"
     }
   }
 }

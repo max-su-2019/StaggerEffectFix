@@ -12,7 +12,7 @@ include(GNUInstallDirs)
 
 # info
 project(
-	StaggerDirectionFix_RE
+	StaggerEffectFix
 	VERSION 1.0.0
 	LANGUAGES CXX
 )
