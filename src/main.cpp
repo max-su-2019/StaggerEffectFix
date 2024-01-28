@@ -20,5 +20,21 @@ DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 	SDF::AddStaggerActorPatch::Install();
 	SDF::MagicStaggerHook::InstallHooks();
 
+	auto g_message = SKSE::GetMessagingInterface();
+	if (!g_message) {
+		ERROR("Messaging Interface Not Found!");
+		return false;
+	}
+
+	g_message->RegisterListener([](SKSE::MessagingInterface::Message* msg) {
+		if (msg->type == SKSE::MessagingInterface::kPostLoad) {
+			static constexpr auto redundantDLLName = "MaxsuStaggerDirFix.dll";
+			auto redundantPlugin = GetModuleHandleA(redundantDLLName);
+			if (redundantPlugin) {
+				ERROR("Redundant plugin \"{}\" Loaded, please delete the redundant mod first!", redundantDLLName);
+			}
+		}
+	});
+
 	return true;
 }
